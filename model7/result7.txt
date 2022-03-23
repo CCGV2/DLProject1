@@ -1,0 +1,6 @@
+这就是大爹
+490轮95.27%
+https://github.com/google-research/augmix
+https://arxiv.org/pdf/1912.02781.pdf
+是一种极其牛逼的混合图像augmentation。同时修改了训练过程。十分彪悍
+参见baba.pth和model7.out

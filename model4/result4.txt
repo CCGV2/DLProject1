@@ -1,0 +1,15 @@
+论文：
+AutoAugment: Learning Augmentation Policies from Data
+https://arxiv.org/abs/1805.09501
+https://github.com/DeepVoltaire/AutoAugment
+lr和batchsize的变化根据
+https://stackoverflow.com/questions/53033556/how-should-the-learning-rate-change-as-the-batch-size-change
+结论就是众说纷纭，都行，可能用Adam的时候还是不变比较好。虽然我还是变了。
+
+和model3的区别是batchsize和lr=0.00015
+
+这里有一个牛逼的论文：Improving Generalization Performance by Switching from Adam to SGD
+把Adam换成SGD可以有帮助。是一个资源，后面可以想办法编
+
+[79, 83, 83, 84, 84, 85, 86, 86, 86, 86, 87, 87, 87, 88, 87, 88, 88, 88, 87, 88]
+200 epochs 88%

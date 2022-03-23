@@ -1,0 +1,6 @@
+论文：
+AutoAugment: Learning Augmentation Policies from Data
+https://arxiv.org/abs/1805.09501
+https://github.com/DeepVoltaire/AutoAugment
+lr=0.000075
+160 epochs 89%
