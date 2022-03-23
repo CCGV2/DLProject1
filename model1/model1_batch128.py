@@ -71,9 +71,9 @@ import torchvision.transforms as transforms
 transform = transforms.Compose(
     [transforms.RandomHorizontalFlip(p=0.5),
     transforms.ToTensor(),
-    transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))])
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-batch_size = 64
+batch_size = 128
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                         download=True, transform=transform)
@@ -99,7 +99,7 @@ print(device)
 net.to(device)
 print("Start Training")
 correctness = []
-for epoch in range(100):  # loop over the dataset multiple times
+for epoch in range(250):  # loop over the dataset multiple times
 
     running_loss = 0.0
     for i, data in enumerate(trainloader, 0):
@@ -117,7 +117,7 @@ for epoch in range(100):  # loop over the dataset multiple times
 
         # print statistics
         running_loss += loss.item()
-    print(f'{epoch + 1} loss: {running_loss / 2000:.3f}')
+    print(f'{epoch + 1} loss: {running_loss / len(trainloader):.6f}')
     running_loss = 0.0
     if epoch % 10 == 9:
         for data in testloader:
@@ -129,11 +129,11 @@ for epoch in range(100):  # loop over the dataset multiple times
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
-            print(f'{epoch + 1} accuracy of the network on the 10000 test images: {100 * correct // total} %')
-            correctness += 100 * correct // total
+        print(f'{epoch + 1} accuracy of the network on the 10000 test images: {test_acc} %')
+        correctness.append(test_acc)
 
 print('Finished Training')
-PATH = './cifar_net.pth'
+PATH = './model1.pth'
 torch.save(net.state_dict(), PATH)
 correct = 0
 total = 0
@@ -150,5 +150,3 @@ with torch.no_grad():
 
 print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
 print(correctness)
-
-
