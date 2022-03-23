@@ -32,16 +32,16 @@ class BasicBlock(nn.Module):
 class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
-        self.in_planes = 40
+        self.in_planes = 42
 
-        self.conv1 = nn.Conv2d(3, 40, kernel_size=3,
+        self.conv1 = nn.Conv2d(3, 42, kernel_size=3,
                                stride=1, padding=1, bias=False)
-        self.bn1 = nn.BatchNorm2d(40)
-        self.layer1 = self._make_layer(block, 40, num_blocks[0], stride=1)
-        self.layer2 = self._make_layer(block, 80, num_blocks[1], stride=2)
-        self.layer3 = self._make_layer(block, 160, num_blocks[2], stride=2)
-        self.layer4 = self._make_layer(block, 320, num_blocks[3], stride=2)
-        self.linear = nn.Linear(320, num_classes)
+        self.bn1 = nn.BatchNorm2d(42)
+        self.layer1 = self._make_layer(block, 42, num_blocks[0], stride=1)
+        self.layer2 = self._make_layer(block, 84, num_blocks[1], stride=2)
+        self.layer3 = self._make_layer(block, 168, num_blocks[2], stride=2)
+        self.layer4 = self._make_layer(block, 336, num_blocks[3], stride=2)
+        self.linear = nn.Linear(336, num_classes)
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
@@ -71,7 +71,7 @@ import torchvision.transforms as transforms
 transform = transforms.Compose(
     [transforms.AutoAugment(transforms.AutoAugmentPolicy.CIFAR10),
     transforms.ToTensor(),
-    transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))])
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 batch_size = 64
 
@@ -99,7 +99,9 @@ print(device)
 net.to(device)
 print("Start Training")
 correctness = []
-for epoch in range(100):  # loop over the dataset multiple times
+
+losses = []
+for epoch in range(250):  # loop over the dataset multiple times
 
     running_loss = 0.0
     for i, data in enumerate(trainloader, 0):
@@ -117,7 +119,8 @@ for epoch in range(100):  # loop over the dataset multiple times
 
         # print statistics
         running_loss += loss.item()
-    print(f'{epoch + 1} loss: {running_loss / 2000:.3f}')
+    print(f'{epoch + 1} loss: {running_loss / len(trainloader):.6f}')
+    losses.append(running_loss / len(trainloader))
     running_loss = 0.0
     if epoch % 10 == 9:
         total = 0
@@ -151,5 +154,6 @@ with torch.no_grad():
         correct += (predicted == labels).sum().item()
 
 print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
+print(losses)
 print(correctness)
 

@@ -99,6 +99,7 @@ print(device)
 net.to(device)
 print("Start Training")
 correctness = []
+losses = []
 for epoch in range(250):  # loop over the dataset multiple times
 
     running_loss = 0.0
@@ -118,6 +119,7 @@ for epoch in range(250):  # loop over the dataset multiple times
         # print statistics
         running_loss += loss.item()
     print(f'{epoch + 1} loss: {running_loss / len(trainloader):.6f}')
+    losses.append(running_loss / len(trainloader))
     running_loss = 0.0
     if epoch % 10 == 9:
         for data in testloader:
@@ -149,4 +151,5 @@ with torch.no_grad():
         correct += (predicted == labels).sum().item()
 
 print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
+print(losses)
 print(correctness)
