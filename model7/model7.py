@@ -400,7 +400,7 @@ for epoch in range(epochs):  # loop over the dataset multiple times
     test_loss, test_acc = test(net, test_loader)
     is_best = test_acc > bestcorrect
 
-    print(f'{epoch + 1} loss: {train_loss_ema / 2000:.3f}')
+    print(f'{epoch + 1} loss: {train_loss_ema:.6f}')
     if epoch % 10 == 9:
         test_loss, test_acc = test(net, test_loader)
         if test_acc > bestcorrect:
@@ -409,6 +409,7 @@ for epoch in range(epochs):  # loop over the dataset multiple times
                 'epoch':epoch,
                 'model_state_dict':net.state_dict(),
                 'optimizer_state_dict':optimizer.state_dict(),
+                'scheduler_state_dict':scheduler.state_dict(),
                 'best_acc': test_acc}, best_path)
             bestcorrect = test_acc
         print(f'{epoch + 1} accuracy of the network on the 10000 test images: {test_acc} %')
