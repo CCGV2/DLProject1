@@ -142,7 +142,7 @@ import torch.optim as optim
 net = project1_model()
 criterion = nn.CrossEntropyLoss()
 # optimizer = optim.RAdam(net.parameters(), lr=0.00015)
-checkpoint = torch.load('zuzong.pth')
+checkpoint = torch.load('project1_model.pth')
 
 
 print(sum(p.numel() for p in net.parameters() if p.requires_grad))
